@@ -15,8 +15,8 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
-      <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{mb: "5px"}}>Baader Demand Map</Typography>
+    <Box display="flex" flexDirection = "row" justifyContent="space-between" p={2}>
+      <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{mb: "5px",}}>Baader Demand Map</Typography>
       <IconButton onClick={colorMode.toggleColorMode}>
         {theme.palette.mode === "dark" ? (
           <DarkModeOutlinedIcon />

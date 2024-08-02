@@ -7,9 +7,11 @@ const Dashboard = ()=>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     return (
-        <Box m="20px">
-            <Box display="flex" justifyContent= "space-between" alignItems="centers"></Box>
+        <Box m="20px" backgroundColor={colors.primary[400]} border="5px" height="100vh" borderRadius="10px">
         </Box>
+
+       
+        
     )
   
 }

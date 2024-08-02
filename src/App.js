@@ -16,10 +16,10 @@ const  App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box className="app" display="flex" flexDirection="row" height="100vh">
+        <Box className="app" display="flex" flexDirection="row" height="100vh" width="100vw">
           <Sidebar isSidebar={isSidebar} />
-          <Box width="100%" >
-            <Topbar setIsSidebar={setIsSidebar} />
+          <Box display="flex" flexDirection="column"  flexGrow="1">
+            <Topbar setIsSidebar={setIsSidebar}/>
             <Routes>
               <Route path="/" element={<Dashboard />} />
             </Routes>

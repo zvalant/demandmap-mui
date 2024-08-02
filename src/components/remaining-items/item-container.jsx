@@ -33,13 +33,11 @@ const ItemContaioner = ({component})=>{
             flexDirection: "column",
             alignItems: "center"
             
-
-    
         }}>
             <Typography>{component.name}</Typography>
             <Typography variant="h7">{component.attributes.description}</Typography>
             {component.attributes.childProgress !== undefined &&  
-            <Box sx={{ width: '100%', mt: 1, height: 20 ,display: "flex", color: red, flexDirection: "column", alignItems: "center", position: "relative", borderRadius: "20px"}}>
+            <Box sx={{ width: '100%', mt: 1, height: 20 ,display: "flex", flexDirection: "column", alignItems: "center", position: "relative", borderRadius: "20px"}}>
                 <LinearProgress sx={{
                     width: "95%",
                     borderRadius: "40px",
@@ -49,8 +47,8 @@ const ItemContaioner = ({component})=>{
                 borderRadius: "20px"
             },
             backgroundColor: colors.primary[200], // Customize the background color
-          }} variant = "determinate" value={70 }/>
-                <Typography sx={{zIndex: 10, position:"absolute", top: "-25%", color: red}} variant='h7'>{component.attributes.childProgress}</Typography>
+          }} variant = "determinate" value={component.attributes.childProgress }/>
+                <Typography sx={{zIndex: 10, position:"absolute", top: "-25%"}} variant='h7'>{component.attributes.childProgress}</Typography>
             </Box>
             }
             {component.attributes.childProgress === undefined&& 

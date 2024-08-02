@@ -1,12 +1,11 @@
-import { Box, colors, darkScrollbar } from "@mui/material";
+import { Box, colors } from "@mui/material";
 import ItemContaioner from "./item-container";
-import { red } from "@mui/material/colors";
-const RemaningItems = ({testPart})=>{
+const RemaningItems = ({part})=>{
     const incompleteParts = [];
-    console.log(testPart);
+    console.log(part);
 
-if ('children' in testPart){
-    for (const child of testPart.children){
+if ('children' in part){
+    for (const child of part.children){
         if (!child.attributes.isDemandMet){
 
         incompleteParts.push(child);
@@ -16,25 +15,7 @@ if ('children' in testPart){
     return (<div>All Parts Complete</div>);
 }
     return (
-        <Box sx={{"& .pro-sidebar-layout": {
-          '&::-webkit-scrollbar': { display: 'scroll' },
-            '::-webkit-scrollbar' :{
-              width: "10px" 
-            },
-            '& ::-webkit-scrollbar-track':{
-              background: "#f1f1f1", 
-              borderRadius: "10px", 
-            },
-            
-            '&::-webkit-scrollbar-thumb': {
-              background: "#888",
-              borderRadius: "10px" 
-            },
-            
-            '&::-webkit-scrollbar-thumb:hover': {
-              background: "#555", 
-            },
-        }}}
+        <Box 
         >
             {incompleteParts.map(component=><ItemContaioner component={component}/>)}
         </Box>
