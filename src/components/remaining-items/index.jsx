@@ -1,9 +1,11 @@
-import { Box, colors } from "@mui/material";
+import { Box, colors, Typography } from "@mui/material";
 import ItemContaioner from "./item-container";
 const RemaningItems = ({part})=>{
     const incompleteParts = [];
     console.log(part);
-
+if (!part){
+    return ;
+}
 if ('children' in part){
     for (const child of part.children){
         if (!child.attributes.isDemandMet){
@@ -11,8 +13,11 @@ if ('children' in part){
         incompleteParts.push(child);
         }
     }
-}else{
-    return (<div>All Parts Complete</div>);
+}
+if (incompleteParts.length<1){
+    return (
+    <Box><Typography variant="h5">No Remaining Items</Typography></Box>
+)
 }
     return (
         <Box 

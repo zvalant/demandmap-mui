@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme, Button} from "@mui/material";
 
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
-import { tokens } from "../../theme";
+import { tokens } from "../../../theme";
 
 
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -17,15 +17,16 @@ import RemainingItemsIcon from "@mui/icons-material/FeedOutlined";
 import PurchasePartTimelineIcon from "@mui/icons-material/ViewTimelineOutlined";
 import PartInfoIcon from "@mui/icons-material/NoteOutlined";
 
-import PartInfo from "../../components/part-info";
-import RemainingItems from "../../components/remaining-items";
-import { testPart } from "../../data/test-data";
-import Quantity from "../../components/quantity";
-import StructureSelection from "../../components/structure-selection";
-import StructureType from "../../components/structure-type";
-import AddPartStructure from "../../components/add-part-structure";
-
-const STRUCTUREOPTIONS = ["Available", "On Hand"]
+import PartInfo from "../../../components/part-info";
+import RemainingItems from "../../../components/remaining-items";
+import { testPart } from "../../../data/test-data";
+import Quantity from "../../../components/quantity";
+import StructureSelection from "../../../components/structure-selection";
+import StructureType from "../../../components/structure-type";
+import AddPartStructure from "../../../components/add-part-structure";
+import SetupMenu from "./setup-menu";
+import { PartStructureContext } from "../../../context/part-structure-context/part-structure-context";
+import DataMenu from "./data-menu";
 const SIDEBARSUBMENUS = {
   collapsed: "Collapsed",
   partInfo: "Part Info",
@@ -38,15 +39,8 @@ const SIDEBARSUBMENUS = {
 
 }
 
-const selectionToggle = ({title, selected})=>{
-  const oldSelect = selected;
-  if (title in oldSelect){
-    oldSelect.pop(title);
-  }else{
-    oldSelect.push(title);
-  }
-  return new Set(oldSelect);
-
+const handleSetupSubmit = ()=>{
+  
 }
 
 
@@ -66,7 +60,7 @@ const Sidebar = () => {
   const [isPartInfoOpen, setIsPartInfoOpen] = useState(false);
   const [isStructureTypeOpen, setIsStructureTypeOpen] = useState(false);
   const [isQuantityOpen, setIsQuantityOpen] = useState(false);
-  
+  const {currentPartStructure} = useContext(PartStructureContext);
 
   const HandleSubmenuToggle = ({toggle, menu})=>{
     console.log("Add Part", isAddPartStructure);
@@ -194,7 +188,6 @@ const Sidebar = () => {
               overflowX: "hidden"
             }}
           >
-            {!isCollapsed && (
               <Box
                 display="flex"
                 flexDirection="row"
@@ -209,7 +202,7 @@ const Sidebar = () => {
                 <Typography  sx={{m: .5}} variant="h2" color={colors.grey[100]} title="////"> ////
                 </Typography>
               </Box>
-            )}
+            
           </MenuItem>
 
 
@@ -226,34 +219,13 @@ const Sidebar = () => {
             <SubMenu 
               title="Setup"
             >
-            <Box minHeight="25vh" overflow="hidden" display="flex" flexDirection="column" alignItems="center">
-
-              <StructureSelection structures = {testPart}/>
-              <StructureType StructureOptions={STRUCTUREOPTIONS}/>
-              <Quantity/>
-            </Box>
+              <SetupMenu/>
+   
             </SubMenu>
 
             <SubMenu title="Data"
               >
-              <Box display="flex" flexDirection= "column" alignItems="center">
-              <Typography variant="h5">REMAINING ITEMS</Typography>
-              <Box sx={{
-              mt: 2,
-              maxHeight: "30vh",
-              overflow: "scroll",
-            }}>
-              <RemainingItems part={testPart[1]}/>
-            </Box>
-                
-            </Box>
-            
- 
-            <Box display="flex" flexDirection= "column" alignItems="center"
-              >
-              <Typography variant="h5">PART INFO</Typography>
-              <PartInfo part={testPart[1]}/>
-            </Box>
+             <DataMenu/>
   
   
             

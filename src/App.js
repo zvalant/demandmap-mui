@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
+import Sidebar from "./scenes/global/sidebar/Sidebar";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import { PartStructureProvider } from "./context/part-structure-context/part-structure-context";
 import Dashboard from "./scenes/dashboard"
 
 const  App = () => {
@@ -13,7 +14,8 @@ const  App = () => {
 
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    <PartStructureProvider>
+      <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box className="app" display="flex" flexDirection="row" height="100vh" width="100vw">
@@ -24,10 +26,11 @@ const  App = () => {
               <Route path="/" element={<Dashboard />} />
             </Routes>
           </Box>
-          
         </Box>
       </ThemeProvider>
-    </ColorModeContext.Provider>
+      </ColorModeContext.Provider>
+    </PartStructureProvider>
+  
   );
 }
 

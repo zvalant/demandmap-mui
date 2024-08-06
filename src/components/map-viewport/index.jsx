@@ -1,17 +1,30 @@
-import { useContext } from "react";
-import {DualRing} from "react-spinners-css";
-
+import { useContext, useState } from "react";
 import React from "react";
 import Tree from "react-d3-tree";
-import { useCenteredTree } from "../../utils/helpers.jsx"
-import "./map-display.styles.scss"
-import MapToolbar from "../map-toolbar/map-toolbar.component.jsx";
+import { CircularProgress, Box, Typography} from "@mui/material/";
+import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
+import { useCenteredTree } from "./helpers.jsx";
 import { testPart } from "../../data/test-data.js";
+import {PartStructureContext} from "../../context/part-structure-context/part-structure-context.jsx";
+import { tokens } from "../../theme";
+import { useTheme } from "@emotion/react";
+import "./map.styles.css";
 
 const renderCard = ({ nodeDatum, foreignObjectProps = {}, addToStructures,currentPartStructure}) => {
 
   let currentLocationSize = -1;
   let nodeLocationSize = -1;
+  let background = "";
+
+  if (nodeDatum.attributes.isDemandMet){
+    background = "#117d16"
+  }else if (nodeDatum.attributes.isComponentDemandMet){
+    background="#FFA000"
+
+  }else{
+    background= "#2a329a"
+  }
+
 
   if ( currentPartStructure.attributes.location !== undefined){
     currentLocationSize = currentPartStructure.attributes.location.length;
@@ -33,58 +46,93 @@ const renderCard = ({ nodeDatum, foreignObjectProps = {}, addToStructures,curren
         <foreignObject
         //create node container that will have part information
           {...foreignObjectProps}
-          width="520"
-          height="520"
+          width="445"
+          height="245"
           x="-210"
           y="-30"
           onClick= {()=>{currentLocationSize!== nodeLocationSize &&  handleClick()}}
 
         >
-          <div
-            className={`card ${nodeDatum.attributes.isComponentDemandMet?"componenet-demand-met":""} ${ nodeDatum.attributes.isDemandMet? "demand-met" : ""}     `}
+          <Box sx={{ 
+            backgroundColor: {background} ,
+            width: "440px",
+            height: "240px", 
+            display: "flex", 
+            flexDirection: "column" ,
+            textAlign: "left", 
+            border:"5px solid ", 
+            borderRadius: "40px", 
+            justifyContent: "top", 
+            borderColor:"black",
+            "&:hover": {
+              borderColor: "#ffffff", // Background color on hover
+             } // Slight zoom effect on hover
+            
+          }}
+            
           >
-            <h2>{nodeDatum.name}</h2>
-            <p>DESC: {nodeDatum.attributes?.description}</p>
-            <p>QTY REQ: {Number(nodeDatum.attributes.qty).toFixed(2)}</p>
-            <p>ON HAND: {nodeDatum.attributes.onHand.toFixed(2)}</p>
-  
-          </div>
+            <Box m={4}>
+              <Typography variant="h1">{nodeDatum.name}</Typography>
+              <Typography variant="h2">{nodeDatum.attributes.description}</Typography>
+            </Box>
+          </Box>
         </foreignObject>
       </React.Fragment>
     );
   };
 
-const MapDisplay = ()=>{
-
+const MapViewport = ()=>{
+    const {isLoading,addToStructures,activeStructureType,partStructures, currentPartStructure, changeToStructure} = useContext(PartStructureContext);
     const [dimensions, translate] = useCenteredTree();
-    const currentPartStructure = testPart[1];
+
+    const handleClick = ()=>{
+      let index = partStructures.length;
+      changeToStructure(index);
+
+    }
 
     return (
-        <div className="viewer">
+      <Box height="100%"
+      >
 
-            {isLoading &&<div className="loading"><DualRing color="black" size={300}/></div>}
-            <MapToolbar/>
-            {currentPartStructure!== undefined && !isLoading&&<div className="tree"><Tree
-                nodeSize={{x: 110+(JSON.stringify(currentPartStructure).length/1000), y: 750 + (JSON.stringify(currentPartStructure).length/100)
-              }}
-                pathFunc="beizer curves"
-                svgClassName="pathlines"
-                scaleExtent={{min:.005,max:1}}
-                separation={{ siblings: 4, nonSiblings: 4 }}
-                data={currentPartStructure}
-                dimensions={dimensions}
-                translate={translate}
-                orientation = "vertical"
-                centeringTransitionDuration={200}
-                renderCustomNodeElement={(rd3tProps) =>
-                    renderCard({ ...rd3tProps,addToStructures,currentPartStructure})
-                    
-                }
-            /></div>}
-            
+          {isLoading &&<Box display="flex" justifyContent="center" alignItems="center" height="100%"><CircularProgress size={220} thickness={4.5} color="primary" />
+          </Box>}
+          {currentPartStructure!== undefined && !isLoading&&
+          <Box height="100vh" width="100%"><Tree
+              nodeSize={{x: 110+(JSON.stringify(currentPartStructure).length/1000), y: 250 + (JSON.stringify(currentPartStructure).length/100)
+            }}
+              pathFunc="beizer curves"
+              svgClassName="pathlines"
+              scaleExtent={{min:.005,max:1}}
+              separation={{ siblings: 4, nonSiblings: 4 }}
+              data={currentPartStructure}
+              dimensions={dimensions}
+              translate={translate}
+              orientation = "vertical"
+              centeringTransitionDuration={200}
+              renderCustomNodeElement={(rd3tProps) =>
+                  renderCard({ ...rd3tProps,addToStructures,currentPartStructure})
+                  
+              }
+          />
+          </Box>}
+          {currentPartStructure!== undefined && !isLoading && 
+          <Box 
+          position="absolute" 
+          top="150px" 
+          right = "50px" 
+          display="flex" 
+          flexDirection="row" 
+          alignContent="center">{ partStructures.length >1 && <ArrowBackIosOutlinedIcon sx={{
+            fontSize: 30 ,
+            cursor: "pointer",
+            "&:hover": {
+              transform: "scale(1.15)"},
+           }} onClick = {()=>handleClick()}/>}<Typography variant="h3">{currentPartStructure.name}</Typography></Box>}
+          
 
-        </div>
+      </Box>
 
-    )
+  )
 }
-export default MapDisplay;
+export default MapViewport;

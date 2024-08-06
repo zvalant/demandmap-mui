@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { Box , Typography, useTheme, withStyles} from "@mui/material";
 import { tokens } from "../../theme";
+import { useContext } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import zIndex from '@mui/material/styles/zIndex';
-import { red } from '@mui/material/colors';
-
+import { PartStructureContext } from '../../context/part-structure-context/part-structure-context';
 
 const ItemContaioner = ({component})=>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const {addToStructures} = useContext(PartStructureContext);
 
     const handleClick = ()=>{
-        let location = component.attributes.location
+        let location = component.attributes.location;
+        addToStructures(location);
     }
     
 
@@ -31,13 +33,25 @@ const ItemContaioner = ({component})=>{
             m: .5,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
+            cursor: "pointer",
+            "&:hover": {
+                borderColor: "#ffffff", 
+            }
             
         }}>
             <Typography>{component.name}</Typography>
             <Typography variant="h7">{component.attributes.description}</Typography>
             {component.attributes.childProgress !== undefined &&  
-            <Box sx={{ width: '100%', mt: 1, height: 20 ,display: "flex", flexDirection: "column", alignItems: "center", position: "relative", borderRadius: "20px"}}>
+            <Box sx={{ 
+                width: '100%', 
+                mt: 1, 
+                height: 20 ,
+                display: "flex", 
+                flexDirection: "column",
+                alignItems: "center", 
+                position: "relative",
+                borderRadius: "20px"}}>
                 <LinearProgress sx={{
                     width: "95%",
                     borderRadius: "40px",

@@ -21,7 +21,7 @@ const AddPartStructure = () =>{
                 type="search"
             />
             <Button sx={{
-                width: "120px",
+                width: "180px",
               backgroundColor: colors.greenAccent[700],
               color: colors.grey[100],
               fontSize: "14px",
