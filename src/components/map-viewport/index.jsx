@@ -9,7 +9,10 @@ import {PartStructureContext} from "../../context/part-structure-context/part-st
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 import "./map.styles.css";
-
+/*
+Purpose: The renderCard is used to import a custom object to be compatable with the react-d3-tree
+with this format can not use React hooks.
+*/
 const renderCard = ({ nodeDatum, foreignObjectProps = {}, addToStructures,currentPartStructure}) => {
 
   let currentLocationSize = -1;
@@ -44,7 +47,6 @@ const renderCard = ({ nodeDatum, foreignObjectProps = {}, addToStructures,curren
     return (
       <React.Fragment>
         <foreignObject
-        //create node container that will have part information
           {...foreignObjectProps}
           width="445"
           height="245"
@@ -65,8 +67,8 @@ const renderCard = ({ nodeDatum, foreignObjectProps = {}, addToStructures,curren
             justifyContent: "top", 
             borderColor:"black",
             "&:hover": {
-              borderColor: "#ffffff", // Background color on hover
-             } // Slight zoom effect on hover
+              borderColor: "#ffffff", 
+             }
             
           }}
             
@@ -81,6 +83,9 @@ const renderCard = ({ nodeDatum, foreignObjectProps = {}, addToStructures,curren
     );
   };
 
+  /*
+  Purpose: MapViewport will display the react-d3-tree based off of currentPartStructure.  
+  */
 const MapViewport = ()=>{
     const {isLoading,addToStructures,activeStructureType,partStructures, currentPartStructure, changeToStructure} = useContext(PartStructureContext);
     const [dimensions, translate] = useCenteredTree();

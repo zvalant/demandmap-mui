@@ -22,12 +22,12 @@ const AddPartStructure = () =>{
             />
             <Button sx={{
                 width: "180px",
-              backgroundColor: colors.greenAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              m:1
+                backgroundColor: colors.greenAccent[700],
+                color: colors.grey[100],
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+                m:1
             }}>Submit</Button>
         </Box>
 

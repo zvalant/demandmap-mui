@@ -5,8 +5,7 @@ import { testPart } from "../../../data/test-data";
 import { tokens } from "../../../theme";
 import { useContext, useState } from "react";
 import { PartStructureContext } from "../../../context/part-structure-context/part-structure-context";
-
-
+import "./setup-menu.styles.css"
 
 const SetupMenu = ()=>{
     const structures = testPart;
@@ -73,16 +72,57 @@ const SetupMenu = ()=>{
         <Box minHeight="25vh" 
             overflow="hidden" 
             display="flex" flexDirection="column" 
-            alignItems="center">
+            alignItems="center"
+            >
+            
+        
             <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
                 width: "180px", 
-                height: "60px",
-                m:1
+                height: "70px",
+                overflow: "hidden",
+                
+  
+                
              }}>
                 
                 {structures && 
-                <Autocomplete 
-                    id="free-solo-demo" //need to change this after context implementation
+                    <Autocomplete 
+               
+                    ListboxProps={{
+                        style: {
+                            '::-webkit-scrollbar' :{
+                            display: "scroll",
+                            overflowX: "hidden",    
+                            width: "0px", 
+
+                            overflowX: "hidden",
+                            },
+                            '& ::-webkit-scrollbar-track':{
+                            background: `${colors.primary[400]}`, 
+                            borderRadius: "10px", 
+                            },
+                            
+                            '&::-webkit-scrollbar-thumb': {
+                            background: "#888",
+                            borderRadius: "10px" 
+                            },
+                            
+                            '&::-webkit-scrollbar-thumb:hover': {
+                            background: "#555", 
+                            },
+                        
+                          maxHeight: "200px",
+                          overflow: "auto",
+                    
+                          
+
+                          },
+                        }}
+                      
+                    //need to change this after context implementation
                     onChange={(event, value) => {setIsSelectedPartStructure(value); setIsSubmitted(false)}}
                     getOptionLabel={(option) => option.toString()} 
                     options={structures.map((option) =>`${option.name} || ${option.attributes.description}`)}
@@ -90,10 +130,13 @@ const SetupMenu = ()=>{
                 />              
                 }
             </Box>
-            <Box sx={{width: "180px", height: "60px",m:1
-        
-        
-                }}>
+            <Box 
+                display= "flex"
+                flexDirection= "column"
+                justifyContent= "center"
+                width= "180px"
+                height= "70px"
+                overflow= "hidden">
                 {STRUCTUREOPTIONS && 
                 <Autocomplete 
                     id="free-solo-demo"
@@ -103,7 +146,14 @@ const SetupMenu = ()=>{
                 />}
             </Box>
             
-            <Box sx={{mb: 5, height: "20px",width: "180px", m:1}}>
+            <Box 
+                display= "flex"
+                flexDirection= "column"
+                justifyContent= "center"
+                width= "180px"
+                height= "70px"
+                overflow= "hidden"
+            >
             <TextField
                 id="filled-search"
                 label="Quantity"
@@ -113,13 +163,15 @@ const SetupMenu = ()=>{
             />
             </Box>
             <Button sx={{
-            width: "180px",
-            backgroundColor: colors.greenAccent[700],
-            color: colors.grey[100],
-            fontSize: "14px",
-            fontWeight: "bold",
-            padding: "10px 20px",
-            mt: 4
+                mt:.5,
+              width: "180px",
+              backgroundColor: colors.greenAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+        
+            
         }}
         disabled = {isSubmitted}
         onClick={handleSubmit}>Submit</Button>

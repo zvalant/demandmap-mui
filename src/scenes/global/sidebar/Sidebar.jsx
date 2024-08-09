@@ -2,27 +2,9 @@ import { useContext, useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme, Button} from "@mui/material";
 
-import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../../theme";
 
-
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import SelectOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import RefreshOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
-import StructureTypeIcon from "@mui/icons-material/TuneOutlined";
-import QuantityIcon from "@mui/icons-material/Inventory2Outlined";
-import RemainingItemsIcon from "@mui/icons-material/FeedOutlined";
-import PurchasePartTimelineIcon from "@mui/icons-material/ViewTimelineOutlined";
-import PartInfoIcon from "@mui/icons-material/NoteOutlined";
-
-import PartInfo from "../../../components/part-info";
-import RemainingItems from "../../../components/remaining-items";
-import { testPart } from "../../../data/test-data";
-import Quantity from "../../../components/quantity";
-import StructureSelection from "../../../components/structure-selection";
-import StructureType from "../../../components/structure-type";
 import AddPartStructure from "../../../components/add-part-structure";
 import SetupMenu from "./setup-menu";
 import { PartStructureContext } from "../../../context/part-structure-context/part-structure-context";
@@ -39,28 +21,15 @@ const SIDEBARSUBMENUS = {
 
 }
 
-const handleSetupSubmit = ()=>{
-  
-}
-
-
 const Sidebar = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
-
-  const [selected, setSelected] = useState(new Set());
   const [isAddPartStructure, setIsAddPartStructure] = useState(false);
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   const [isDataOpen, setIsDataOpen] = useState(false);
-  const [activeMainMenu, setActiveMainMenu] = useState("")
-  const [isRemainingOpen, setIsRemainingOpen] = useState(false);
-  const [isPartInfoOpen, setIsPartInfoOpen] = useState(false);
-  const [isStructureTypeOpen, setIsStructureTypeOpen] = useState(false);
-  const [isQuantityOpen, setIsQuantityOpen] = useState(false);
-  const {currentPartStructure} = useContext(PartStructureContext);
+
 
   const HandleSubmenuToggle = ({toggle, menu})=>{
     console.log("Add Part", isAddPartStructure);
@@ -93,7 +62,9 @@ const Sidebar = () => {
 
   return (
     <Box
-    //background and scrollbar overrides to convert sidebar to current theme
+    /*
+    scrollbar webkit modifications for pro sidebar and box mui components.
+    */
       sx={{
         overflowX: "hidden",
 
